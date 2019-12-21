@@ -13,6 +13,7 @@ public class Main {
         // Second space = passive units (civilians/captives)
         int[][][] mapNumbers = new int[10][10][2];
 
+        // Iterates through mapNumbers and adds random numbers to them
         Random numGen = new Random();
         for (int row = 0; row < mapNumbers.length; row++) {
             for (int column = 0; column < mapNumbers[row].length; column++) {
@@ -22,6 +23,9 @@ public class Main {
             }
         }
 
-        System.out.println(Arrays.deepToString(mapNumbers));
+        // Prints rows of mapNumbers
+        for (int row = 0; row < mapNumbers.length; row++) {
+            System.out.println(Arrays.deepToString(mapNumbers[row]));
+        }
     }
 }
