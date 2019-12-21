@@ -27,22 +27,40 @@ public class Main {
 //        }
 
         printMap(mapNumbers);
+        System.out.println();
+        System.out.println();
+        progressTurn(mapNumbers);
+        printMap(mapNumbers);
     }
 
     // Prints the current map state in a user-friendly format
-    public static void printMap(int[][][] array) {
-        for (int row = 0; row < array.length; row++) {
-            for (int column = 0; column < array[row].length; column++) {
-                for (int depth = 0; depth < array[row][column].length; depth++) {
-                    if (array[row][column][depth] < 10) {
+    public static void printMap(int[][][] map) {
+        for (int row = 0; row < map.length; row++) {
+            for (int column = 0; column < map[row].length; column++) {
+                for (int depth = 0; depth < map[row][column].length; depth++) {
+                    if (map[row][column][depth] < 10) {
                         System.out.print(" ");
                     }
-                    System.out.print(array[row][column][depth]);
+                    System.out.print(map[row][column][depth]);
                     System.out.print(" ");
                 }
                 System.out.print(" |  ");
             }
             System.out.println();
         }
+    }
+
+    // Progresses all of the passive actions that happens after the player turn.
+    public static int[][][] progressTurn (int[][][] map) {
+        // Increases active unit count based on passive unit count
+        for (int row = 0; row < map.length; row++) {
+            for (int column = 0; column < map[row].length; column++) {
+                map[row][column][0] += map[row][column][1]/2;
+                if (map[row][column][0] > 99) {
+                    map[row][column][0] = 99;
+                }
+            }
+        }
+        return map;
     }
 }
