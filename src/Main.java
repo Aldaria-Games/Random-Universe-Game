@@ -1,5 +1,4 @@
 import java.sql.Array;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -26,6 +25,24 @@ public class Main {
         // Prints rows of mapNumbers
         for (int row = 0; row < mapNumbers.length; row++) {
             System.out.println(Arrays.deepToString(mapNumbers[row]));
+        }
+
+        // Testing new print statement
+        printArr(mapNumbers);
+    }
+
+    public static void printArr (int[][][] array) {
+        for (int row = 0; row < array.length; row++) {
+            for (int column = 0; column < array[row].length; column++) {
+                for (int depth = 0; depth < array[row][column].length; depth++) {
+                    System.out.print(array[row][column][depth]);
+                    if (array[row][column][depth] < 10) {
+                        System.out.print(" ");
+                    }
+                    System.out.print(" ");
+                }
+                System.out.println();
+            }
         }
     }
 }
