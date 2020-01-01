@@ -108,10 +108,30 @@ public class Main {
         return map;
     }
 
-    // TODO decides who wins the attack and by how much.
+    // decides who wins the attack and by how much.
+    // Positive = attacker gains units
+    // Negative = defender gains units
     public static int[][][] attackSquare (int[][][] map, int[] attackerLocation, int[] defenderLocation) {
-        int attackerActiveUnits = map[attackerLocation[0]][attackerLocation[1]][1];
-        int defenderActiveUnits = map[defenderLocation[0]][defenderLocation[1]][1];
+        int attackerActiveUnits = map[attackerLocation[0]][attackerLocation[1]][0];
+        int defenderActiveUnits = map[defenderLocation[0]][defenderLocation[1]][0];
+        Random numGen = new Random();
+        int result = attackerActiveUnits-numGen.nextInt(attackerActiveUnits+defenderActiveUnits)+1;
+        System.out.println("result = attacker gained " + result + "units");
+        attackerActiveUnits += result;
+        defenderActiveUnits -= result;
+
+        // Accounts for cases where either army takes more active units than what is actually available.
+        if (attackerActiveUnits < 0){
+            defenderActiveUnits += attackerActiveUnits;
+            attackerActiveUnits = 0;
+        }
+        if (defenderActiveUnits < 0){
+            attackerActiveUnits += defenderActiveUnits;
+            defenderActiveUnits = 0;
+        }
+
+        map[attackerLocation[0]][attackerLocation[1]][0] = attackerActiveUnits;
+        map[defenderLocation[0]][defenderLocation[1]][0] = defenderActiveUnits;
         return map;
     }
 }
