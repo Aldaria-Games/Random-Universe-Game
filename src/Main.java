@@ -37,10 +37,11 @@ public class Main {
         System.out.println("Your location is: " + Arrays.toString(playerLocation));
 
 
-//        System.out.println();
-//        System.out.println();
+        mapNumbers = playerTurn(mapNumbers);
+        System.out.println();
+        System.out.println();
 //        progressTurn(mapNumbers);
-//        printMap(mapNumbers);
+        printMap(mapNumbers);
     }
 
     // Prints the current map state in a user-friendly format
@@ -85,7 +86,7 @@ public class Main {
         System.out.println("Type the column that you want to attack");
         attackSquare[1] = input.nextInt();
         if (Math.abs(attackSquare[0]-playerLocation[0]) <= 1 && Math.abs(attackSquare[1]-playerLocation[1]) <= 1) {
-            map = attackSquare(map);
+            map = attackSquare(map,playerLocation,attackSquare);
         } else {
             System.out.println("Too far away. Choose again.");
             map = playerAttacksSquare(map);
@@ -108,8 +109,9 @@ public class Main {
     }
 
     // TODO decides who wins the attack and by how much.
-    public static int[][][] attackSquare (int[][][] map) {
-
+    public static int[][][] attackSquare (int[][][] map, int[] attackerLocation, int[] defenderLocation) {
+        int attackerActiveUnits = map[attackerLocation[0]][attackerLocation[1]][1];
+        int defenderActiveUnits = map[defenderLocation[0]][defenderLocation[1]][1];
         return map;
     }
 }
