@@ -108,15 +108,17 @@ public class Main {
         return map;
     }
 
-    // decides who wins the attack and by how much.
+    // decides who wins an attack and by how much.
     // Positive = attacker gains units
     // Negative = defender gains units
+    // TODO change so that the captured active units are made passive
+    // TODO Add case that removes all passive units upon active reaching zero.
     public static int[][][] attackSquare (int[][][] map, int[] attackerLocation, int[] defenderLocation) {
         int attackerActiveUnits = map[attackerLocation[0]][attackerLocation[1]][0];
         int defenderActiveUnits = map[defenderLocation[0]][defenderLocation[1]][0];
         Random numGen = new Random();
-        int result = attackerActiveUnits-numGen.nextInt(attackerActiveUnits+defenderActiveUnits)+1;
-        System.out.println("result = attacker gained " + result + "units");
+        int result = attackerActiveUnits - numGen.nextInt(attackerActiveUnits + defenderActiveUnits) + 1;
+        System.out.println("result = attacker gained " + result + " units at most");
         attackerActiveUnits += result;
         defenderActiveUnits -= result;
 
