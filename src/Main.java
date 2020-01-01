@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static int activeUnitAcquisitionSpeed = 5;
+    public static int[] playerLocation = new int[2];
     public static void main(String[] args) {
 //        System.out.println("Hello World!");
 
@@ -31,7 +32,8 @@ public class Main {
         printMap(mapNumbers);
 
         // Creates the player's starting location
-        int[] playerLocation = {numGen.nextInt(10),numGen.nextInt(10)};
+        playerLocation[0] = numGen.nextInt(10);
+        playerLocation[1] = numGen.nextInt(10);
         System.out.println("Your location is: " + Arrays.toString(playerLocation));
 
 
@@ -64,6 +66,22 @@ public class Main {
         System.out.println("Your turn. Choose what you want to do.");
         System.out.println("1. Attack a square");
         System.out.println("2. Wait (Gain active units based on your passive unit count)");
+        System.out.println("Choose by typing 1 for attack and 2 for wait.");
+        int playerChoice = input.nextInt();
+        if (playerChoice == 1) {
+            playerAttacksSquare(map);
+        }
+        map = progressTurn(map);
+        return map;
+    }
+
+    public static int[][][] playerAttacksSquare (int[][][] map) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Choose which square you want to attack.");
+        System.out.println("Type the row, then a comma, and them the column");
+        if (&&) {
+
+        }
         return map;
     }
 
