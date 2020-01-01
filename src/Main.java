@@ -27,10 +27,14 @@ public class Main {
 //        }
 
         printMap(mapNumbers);
-        System.out.println();
-        System.out.println();
-        progressTurn(mapNumbers);
-        printMap(mapNumbers);
+
+        // Creates the player's starting location
+        int[] playerLocation = {numGen.nextInt(10),numGen.nextInt(10)};
+        System.out.println(Arrays.toString(playerLocation));
+//        System.out.println();
+//        System.out.println();
+//        progressTurn(mapNumbers);
+//        printMap(mapNumbers);
     }
 
     // Prints the current map state in a user-friendly format
@@ -55,7 +59,7 @@ public class Main {
         // Increases active unit count based on passive unit count
         for (int row = 0; row < map.length; row++) {
             for (int column = 0; column < map[row].length; column++) {
-                map[row][column][0] += map[row][column][1]/2;
+                map[row][column][0] += map[row][column][1]/10;
                 if (map[row][column][0] > 99) {
                     map[row][column][0] = 99;
                 }
