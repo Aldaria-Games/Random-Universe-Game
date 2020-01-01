@@ -62,6 +62,7 @@ public class Main {
     }
 
     // Asks the player for their move.
+    // TODO add movement
     public static int[][][] playerTurn (int[][][] map) {
         Scanner input = new Scanner(System.in);
         System.out.println("Your turn. Choose what you want to do.");
@@ -95,6 +96,7 @@ public class Main {
     }
 
     // Progresses all of the passive actions that happens after the player turn.
+    // TODO add AI attacks
     public static int[][][] progressTurn (int[][][] map) {
         // Increases active unit count based on passive unit count
         for (int row = 0; row < map.length; row++) {
@@ -112,10 +114,11 @@ public class Main {
     // Positive = attacker gains units
     // Negative = defender gains units
     // TODO change so that the captured active units are made passive
-    // TODO Add case that removes all passive units upon active reaching zero.
     public static int[][][] attackSquare (int[][][] map, int[] attackerLocation, int[] defenderLocation) {
         int attackerActiveUnits = map[attackerLocation[0]][attackerLocation[1]][0];
         int defenderActiveUnits = map[defenderLocation[0]][defenderLocation[1]][0];
+        int attackerPassiveUnits = map[attackerLocation[0]][attackerLocation[1]][1];
+        int defenderPassiveUnits = map[defenderLocation[0]][defenderLocation[1]][1];
         Random numGen = new Random();
         int result = attackerActiveUnits - numGen.nextInt(attackerActiveUnits + defenderActiveUnits) + 1;
         System.out.println("result = attacker gained " + result + " units at most");
@@ -126,14 +129,20 @@ public class Main {
         if (attackerActiveUnits < 0){
             defenderActiveUnits += attackerActiveUnits;
             attackerActiveUnits = 0;
+            defenderPassiveUnits += attackerPassiveUnits;
+            attackerPassiveUnits = 0;
         }
         if (defenderActiveUnits < 0){
             attackerActiveUnits += defenderActiveUnits;
             defenderActiveUnits = 0;
+            attackerPassiveUnits += defenderPassiveUnits;
+            defenderPassiveUnits = 0;
         }
 
         map[attackerLocation[0]][attackerLocation[1]][0] = attackerActiveUnits;
         map[defenderLocation[0]][defenderLocation[1]][0] = defenderActiveUnits;
+        map[attackerLocation[0]][attackerLocation[1]][1] = attackerPassiveUnits;
+        map[defenderLocation[0]][defenderLocation[1]][1] = defenderPassiveUnits;
         return map;
     }
 }
