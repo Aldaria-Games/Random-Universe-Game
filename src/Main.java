@@ -74,7 +74,12 @@ public class Main {
         if (playerChoice == 1) {
             map = playerAttacksSquare(map);
         } else if (playerChoice == 3) {
+            if (checkForEmpty(map,playerLocation)){
 
+            } else {
+                System.out.println("You can't move because there are no empty spaces around you.");
+                map = playerTurn(map);
+            }
         }
         map = progressTurn(map);
         return map;
@@ -95,6 +100,18 @@ public class Main {
             System.out.println("Too far away. Choose again.");
             map = playerAttacksSquare(map);
         }
+        return map;
+    }
+
+    // TODO check to see if the square chosen is empty.
+    public static int[][][] playerMovesSquare (int[][][] map){
+        Scanner input = new Scanner(System.in);
+        int[] playerMoveChoice = new int[2];
+        System.out.println("Choose the square you would like to move to.");
+        System.out.println("Type the row you would like to move to.");
+        playerMoveChoice[0] = input.nextInt();
+        System.out.println("Type the column you would like to move to.");
+        playerMoveChoice[1] = input.nextInt();
         return map;
     }
 
@@ -157,7 +174,8 @@ public class Main {
     public static boolean checkForEmpty (int[][][] map, int[] location) {
         for (int row = -1; row < 2; row++) {
             for (int column = -1; column < 2; column++) {
-                if (map[location[0] + row][location[1] + column][0] == 0 && map[location[0] + row][location[1] + column][1] == 0){
+                if (map[location[0] + row][location[1] + column][0] == 0 &&
+                        map[location[0] + row][location[1] + column][1] == 0){
                     return true;
                 }
             }
