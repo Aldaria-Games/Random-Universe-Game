@@ -69,12 +69,13 @@ public class Main {
         System.out.println("Choose by typing 1 for attack and 2 for wait.");
         int playerChoice = input.nextInt();
         if (playerChoice == 1) {
-            playerAttacksSquare(map);
+            map = playerAttacksSquare(map);
         }
         map = progressTurn(map);
         return map;
     }
 
+    // lets the player choose which square to attack.
     public static int[][][] playerAttacksSquare (int[][][] map) {
         Scanner input = new Scanner(System.in);
         int[] attackSquare = new int[2];
@@ -84,7 +85,7 @@ public class Main {
         System.out.println("Type the column that you want to attack");
         attackSquare[1] = input.nextInt();
         if (Math.abs(attackSquare[0]-playerLocation[0]) <= 1 && Math.abs(attackSquare[1]-playerLocation[1]) <= 1) {
-
+            map = attackSquare(map);
         } else {
             System.out.println("Too far away. Choose again.");
             map = playerAttacksSquare(map);
@@ -103,6 +104,12 @@ public class Main {
                 }
             }
         }
+        return map;
+    }
+
+    // TODO decides who wins the attack and by how much.
+    public static int[][][] attackSquare (int[][][] map) {
+
         return map;
     }
 }
