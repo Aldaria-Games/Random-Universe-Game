@@ -97,6 +97,7 @@ public class Main {
 
     // Progresses all of the passive actions that happens after the player turn.
     // TODO add AI attacks
+    // TODO change so that it works with inividual squares instead of the whole map.
     public static int[][][] progressTurn (int[][][] map) {
         // Increases active unit count based on passive unit count
         for (int row = 0; row < map.length; row++) {
@@ -104,6 +105,9 @@ public class Main {
                 map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
                 if (map[row][column][0] > 99) {
                     map[row][column][0] = 99;
+                }
+                if (map[row][column][1] > 99) {
+                    map[row][column][1] = 99;
                 }
             }
         }
