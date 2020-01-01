@@ -68,10 +68,13 @@ public class Main {
         System.out.println("Your turn. Choose what you want to do.");
         System.out.println("1. Attack a square");
         System.out.println("2. Wait (Gain active units based on your passive unit count)");
-        System.out.println("Choose by typing 1 for attack and 2 for wait.");
+        System.out.println("3. Move into a completely empty square");
+        System.out.println("Choose by typing 1 for attack, 2 for wait, and 3 for move.");
         int playerChoice = input.nextInt();
         if (playerChoice == 1) {
             map = playerAttacksSquare(map);
+        } else if (playerChoice == 3) {
+
         }
         map = progressTurn(map);
         return map;
@@ -97,7 +100,7 @@ public class Main {
 
     // Progresses all of the passive actions that happens after the player turn.
     // TODO add AI attacks
-    // TODO change so that it works with inividual squares instead of the whole map.
+    // TODO change so that it works with individual squares instead of the whole map.
     public static int[][][] progressTurn (int[][][] map) {
         // Increases active unit count based on passive unit count
         for (int row = 0; row < map.length; row++) {
@@ -148,5 +151,17 @@ public class Main {
         map[attackerLocation[0]][attackerLocation[1]][1] = attackerPassiveUnits;
         map[defenderLocation[0]][defenderLocation[1]][1] = defenderPassiveUnits;
         return map;
+    }
+
+    // Checks the area around "location" for empty spaces.
+    public static boolean checkForEmpty (int[][][] map, int[] location) {
+        for (int row = -1; row < 2; row++) {
+            for (int column = -1; column < 2; column++) {
+                if (map[location[0] + row][location[1] + column][0] == 0 && map[location[0] + row][location[1] + column][1] == 0){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
