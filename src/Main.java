@@ -1,8 +1,10 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
+    public static int activeUnitAcquisitionSpeed = 5;
     public static void main(String[] args) {
 //        System.out.println("Hello World!");
 
@@ -30,7 +32,9 @@ public class Main {
 
         // Creates the player's starting location
         int[] playerLocation = {numGen.nextInt(10),numGen.nextInt(10)};
-        System.out.println(Arrays.toString(playerLocation));
+        System.out.println("Your location is: " + Arrays.toString(playerLocation));
+
+
 //        System.out.println();
 //        System.out.println();
 //        progressTurn(mapNumbers);
@@ -54,12 +58,21 @@ public class Main {
         }
     }
 
+    // Asks the player for their move.
+    public static int[][][] playerTurn (int[][][] map) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Your turn. Choose what you want to do.");
+        System.out.println("1. Attack a square");
+        System.out.println("2. Wait (Gain active units based on your passive unit count)");
+        return map;
+    }
+
     // Progresses all of the passive actions that happens after the player turn.
     public static int[][][] progressTurn (int[][][] map) {
         // Increases active unit count based on passive unit count
         for (int row = 0; row < map.length; row++) {
             for (int column = 0; column < map[row].length; column++) {
-                map[row][column][0] += map[row][column][1]/10;
+                map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
                 if (map[row][column][0] > 99) {
                     map[row][column][0] = 99;
                 }
