@@ -77,10 +77,17 @@ public class Main {
 
     public static int[][][] playerAttacksSquare (int[][][] map) {
         Scanner input = new Scanner(System.in);
+        int[] attackSquare = new int[2];
         System.out.println("Choose which square you want to attack.");
-        System.out.println("Type the row, then a comma, and them the column");
-        if (&&) {
+        System.out.println("Type the row that you want to attack");
+        attackSquare[0] = input.nextInt();
+        System.out.println("Type the column that you want to attack");
+        attackSquare[1] = input.nextInt();
+        if (Math.abs(attackSquare[0]-playerLocation[0]) <= 1 && Math.abs(attackSquare[1]-playerLocation[1]) <= 1) {
 
+        } else {
+            System.out.println("Too far away. Choose again.");
+            map = playerAttacksSquare(map);
         }
         return map;
     }
