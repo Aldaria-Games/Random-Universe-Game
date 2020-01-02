@@ -7,6 +7,7 @@ public class Main {
     public static int activeUnitAcquisitionSpeed = 5;
     public static int[] playerLocation = new int[2];
     public static void main(String[] args) {
+        // TODO have multiple turns
 //        System.out.println("Hello World!");
 
         // The map is 10 x 10, with 2 spaces.
@@ -154,7 +155,6 @@ public class Main {
                             int[] attackerArray = {row,column};
                             int[] defenderArray = {row + attackRowOffset,column + attackColumnOffset};
                             map = attackSquare(map,attackerArray,defenderArray);
-                            System.out.println("attacked a square");
                         } else {
                             // If the attack fails, it does the normal active unit increase.
                             map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
@@ -164,8 +164,11 @@ public class Main {
                         map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
                     }
                 }
-
-                // Checks if either the active or passive units are over the max cap and correct if neccesary.
+            }
+        }
+        for (int row = 0; row < map.length; row++) {
+            for (int column = 0; column < map[row].length; column++) {
+                // Checks if either the active or passive units are over the max cap and correct if necessary.
                 if (map[row][column][0] > 99) {
                     map[row][column][0] = 99;
                 }
