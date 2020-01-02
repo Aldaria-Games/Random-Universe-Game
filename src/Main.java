@@ -135,15 +135,32 @@ public class Main {
     }
 
     // Progresses all of the passive actions that happens after the player turn.
-    // TODO add AI attacks
-    // TODO change so that it works with individual squares instead of the whole map.
+    // TODO add AI moves
     public static int[][][] progressTurn (int[][][] map) {
-        // Increases active unit count based on passive unit count
+        Random numGen = new Random();
         for (int row = 0; row < map.length; row++) {
             for (int column = 0; column < map[row].length; column++) {
                 if (!(playerLocation[0] == row && playerLocation[1] == column)) {
-                    map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
+                    int choice = numGen.nextInt(5);
+                    if (choice != 5) {
+                        // Increases active unit count based on passive unit count
+                        map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
+                    } else {
+                        // Attempts to attack a square
+                        int attackRowOffset = numGen.nextInt(3) - 1;
+                        int attackColumnOffset = numGen.nextInt(3) - 1;
+                        if (attackRowOffset != 0 || attackColumnOffset != 0) {
+                            int[] attackerArray = {row,column};
+                            int[] defenderArray = {row + attackRowOffset,column + attackColumnOffset};
+                            map = attackSquare(map,attackerArray,defenderArray);
+                        } else {
+                            // If the attack fails, it does the normal active unit increase.
+                            map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
+                        }
+                    }
                 }
+
+                // Checks if either the active or passive units are over the max cap and correct if neccesary.
                 if (map[row][column][0] > 99) {
                     map[row][column][0] = 99;
                 }
