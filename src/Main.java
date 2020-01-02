@@ -83,6 +83,8 @@ public class Main {
                 System.out.println("You can't move because there are no empty spaces around you.");
                 map = playerTurn(map);
             }
+        } else {
+            map[playerLocation[0]][playerLocation[1]][0] += map[playerLocation[0]][playerLocation[1]][1]/activeUnitAcquisitionSpeed;
         }
         map = progressTurn(map);
         return map;
@@ -142,10 +144,7 @@ public class Main {
             for (int column = 0; column < map[row].length; column++) {
                 if (!(playerLocation[0] == row && playerLocation[1] == column)) {
                     int choice = numGen.nextInt(5);
-                    if (choice != 5) {
-                        // Increases active unit count based on passive unit count
-                        map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
-                    } else {
+                    if (choice == 4) {
                         // Attempts to attack a square
                         int attackRowOffset = numGen.nextInt(3) - 1;
                         int attackColumnOffset = numGen.nextInt(3) - 1;
@@ -153,10 +152,14 @@ public class Main {
                             int[] attackerArray = {row,column};
                             int[] defenderArray = {row + attackRowOffset,column + attackColumnOffset};
                             map = attackSquare(map,attackerArray,defenderArray);
+                            System.out.println("attacked a square");
                         } else {
                             // If the attack fails, it does the normal active unit increase.
                             map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
                         }
+                    } else {
+                        // Increases active unit count based on passive unit count
+                        map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
                     }
                 }
 
