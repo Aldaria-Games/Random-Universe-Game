@@ -186,7 +186,6 @@ public class Main {
     // decides who wins an attack and by how much.
     // Positive = attacker gains units
     // Negative = defender gains units
-    // TODO change so that the captured active units are made passive
     public static int[][][] attackSquare (int[][][] map, int[] attackerLocation, int[] defenderLocation) {
         int attackerActiveUnits = map[attackerLocation[0]][attackerLocation[1]][0];
         int defenderActiveUnits = map[defenderLocation[0]][defenderLocation[1]][0];
@@ -195,18 +194,26 @@ public class Main {
         Random numGen = new Random();
         int result = attackerActiveUnits - numGen.nextInt(attackerActiveUnits + defenderActiveUnits) + 1;
         System.out.println("result = attacker gained " + result + " units at most");
-        attackerActiveUnits += result;
-        defenderActiveUnits -= result;
+//        attackerActiveUnits += result;
+//        defenderActiveUnits -= result;
+
+        if (result > 0) {
+            defenderActiveUnits -= result;
+            attackerPassiveUnits += result;
+        } else if (result < 0) {
+            attackerActiveUnits += result;
+            defenderPassiveUnits -= result;
+        }
 
         // Accounts for cases where either army takes more active units than what is actually available.
         if (attackerActiveUnits < 0){
-            defenderActiveUnits += attackerActiveUnits;
+            defenderPassiveUnits += attackerActiveUnits;
             attackerActiveUnits = 0;
             defenderPassiveUnits += attackerPassiveUnits;
             attackerPassiveUnits = 0;
         }
         if (defenderActiveUnits < 0){
-            attackerActiveUnits += defenderActiveUnits;
+            attackerPassiveUnits += defenderActiveUnits;
             defenderActiveUnits = 0;
             attackerPassiveUnits += defenderPassiveUnits;
             defenderPassiveUnits = 0;
@@ -223,8 +230,7 @@ public class Main {
     public static boolean checkForEmpty (int[][][] map, int[] location) {
         for (int row = -1; row < 2; row++) {
             for (int column = -1; column < 2; column++) {
-                if (map[location[0] + row][location[1] + column][0] == 0 &&
-                        map[location[0] + row][location[1] + column][1] == 0){
+                if (map[location[0] + row][location[1] + column][0] == 0 && map[location[0] + row][location[1] + column][1] == 0){
                     return true;
                 }
             }
