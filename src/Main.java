@@ -6,6 +6,7 @@ public class Main {
 
     public static int activeUnitAcquisitionSpeed = 5;
     public static int[] playerLocation = new int[2];
+    public static boolean playerAlive = true;
     public static void main(String[] args) {
         // TODO have multiple turns
 //        System.out.println("Hello World!");
@@ -42,11 +43,17 @@ public class Main {
 //        mapNumbers[playerLocation[0]+1][playerLocation[1]+1][1] = 0;
 //        printMap(mapNumbers);
 
-        mapNumbers = playerTurn(mapNumbers);
-        System.out.println();
-        System.out.println();
+        while (playerAlive) {
+            mapNumbers = playerTurn(mapNumbers);
+            System.out.println();
+            System.out.println();
+            printMap(mapNumbers);
+            if (mapNumbers[playerLocation[0]][playerLocation[1]][0] == 0 && mapNumbers[playerLocation[0]][playerLocation[1]][1] == 0) {
+                playerAlive = false;
+            }
+        }
+        System.out.println("Game Over");
 //        progressTurn(mapNumbers);
-        printMap(mapNumbers);
     }
 
     // Prints the current map state in a user-friendly format
