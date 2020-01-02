@@ -148,7 +148,9 @@ public class Main {
                         // Attempts to attack a square
                         int attackRowOffset = numGen.nextInt(3) - 1;
                         int attackColumnOffset = numGen.nextInt(3) - 1;
-                        if (attackRowOffset != 0 || attackColumnOffset != 0) {
+                        if ((attackRowOffset != 0 || attackColumnOffset != 0) &&
+                                (attackRowOffset+row < 10) && (attackColumnOffset+row < 10) && (attackRowOffset+row >= 0) &&
+                                (attackColumnOffset+column >= 0)) {
                             int[] attackerArray = {row,column};
                             int[] defenderArray = {row + attackRowOffset,column + attackColumnOffset};
                             map = attackSquare(map,attackerArray,defenderArray);
