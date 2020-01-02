@@ -103,7 +103,7 @@ public class Main {
         return map;
     }
 
-    // TODO check to see if the square chosen is empty.
+
     public static int[][][] playerMovesSquare (int[][][] map){
         Scanner input = new Scanner(System.in);
         int[] playerMoveChoice = new int[2];
@@ -112,6 +112,11 @@ public class Main {
         playerMoveChoice[0] = input.nextInt();
         System.out.println("Type the column you would like to move to.");
         playerMoveChoice[1] = input.nextInt();
+        if (map[playerMoveChoice[0]][playerMoveChoice[1]][0] != 0 ||
+                map[playerMoveChoice[0]][playerMoveChoice[1]][1] != 0) {
+            System.out.println("Square was not empty. Choose another square.");
+            map = playerMovesSquare(map);
+        }
         return map;
     }
 
