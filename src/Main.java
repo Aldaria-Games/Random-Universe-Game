@@ -101,7 +101,12 @@ public class Main {
         System.out.println("Type the column that you want to attack");
         attackSquare[1] = input.nextInt();
         if (Math.abs(attackSquare[0]-playerLocation[0]) <= 1 && Math.abs(attackSquare[1]-playerLocation[1]) <= 1) {
-            map = attackSquare(map,playerLocation,attackSquare);
+            if (attackSquare[0] > 9 || attackSquare[1] > 9 || attackSquare[0] < 0 || attackSquare[1] < 0) {
+                System.out.println("Out of bounds. Choose again.");
+                map = playerAttacksSquare(map);
+            } else {
+                map = attackSquare(map, playerLocation, attackSquare);
+            }
         } else {
             System.out.println("Too far away. Choose again.");
             map = playerAttacksSquare(map);
@@ -149,9 +154,7 @@ public class Main {
                         // Attempts to attack a square
                         int attackRowOffset = numGen.nextInt(3) - 1;
                         int attackColumnOffset = numGen.nextInt(3) - 1;
-                        if ((attackRowOffset != 0 || attackColumnOffset != 0) &&
-                                (attackRowOffset+row < 10) && (attackColumnOffset+row < 10) && (attackRowOffset+row >= 0) &&
-                                (attackColumnOffset+column >= 0)) {
+                        if ((attackRowOffset != 0 || attackColumnOffset != 0) && (attackRowOffset+row < 10) && (attackColumnOffset+column < 10) && (attackRowOffset+row >= 0) && (attackColumnOffset+column >= 0)) {
                             int[] attackerArray = {row,column};
                             int[] defenderArray = {row + attackRowOffset,column + attackColumnOffset};
                             map = attackSquare(map,attackerArray,defenderArray);
