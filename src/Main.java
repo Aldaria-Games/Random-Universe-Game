@@ -103,7 +103,7 @@ public class Main {
         return map;
     }
 
-
+    // Moves the player to a square
     public static int[][][] playerMovesSquare (int[][][] map){
         Scanner input = new Scanner(System.in);
         int[] playerMoveChoice = new int[2];
@@ -117,6 +117,10 @@ public class Main {
             System.out.println("Square was not empty. Choose another square.");
             map = playerMovesSquare(map);
         }
+        map[playerMoveChoice[0]][playerMoveChoice[1]][0] = map[playerLocation[0]][playerLocation[1]][0];
+        map[playerMoveChoice[0]][playerMoveChoice[1]][1] = map[playerLocation[0]][playerLocation[1]][1];
+        map[playerLocation[0]][playerLocation[1]][0] = 0;
+        map[playerLocation[0]][playerLocation[1]][1] = 0;
         return map;
     }
 
