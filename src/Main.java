@@ -36,6 +36,10 @@ public class Main {
         playerLocation[1] = numGen.nextInt(10);
         System.out.println("Your location is: " + Arrays.toString(playerLocation));
 
+        // Erasing a square on the board for movement testing.
+//        mapNumbers[playerLocation[0]+1][playerLocation[1]+1][0] = 0;
+//        mapNumbers[playerLocation[0]+1][playerLocation[1]+1][1] = 0;
+//        printMap(mapNumbers);
 
         mapNumbers = playerTurn(mapNumbers);
         System.out.println();
@@ -62,7 +66,6 @@ public class Main {
     }
 
     // Asks the player for their move.
-    // TODO add movement
     public static int[][][] playerTurn (int[][][] map) {
         Scanner input = new Scanner(System.in);
         System.out.println("Your turn. Choose what you want to do.");
@@ -75,7 +78,7 @@ public class Main {
             map = playerAttacksSquare(map);
         } else if (playerChoice == 3) {
             if (checkForEmpty(map,playerLocation)){
-
+                map = playerMovesSquare(map);
             } else {
                 System.out.println("You can't move because there are no empty spaces around you.");
                 map = playerTurn(map);
@@ -112,15 +115,22 @@ public class Main {
         playerMoveChoice[0] = input.nextInt();
         System.out.println("Type the column you would like to move to.");
         playerMoveChoice[1] = input.nextInt();
+
+        // Checks for user area and asks for correct info if necessary.
         if (map[playerMoveChoice[0]][playerMoveChoice[1]][0] != 0 ||
                 map[playerMoveChoice[0]][playerMoveChoice[1]][1] != 0) {
             System.out.println("Square was not empty. Choose another square.");
             map = playerMovesSquare(map);
         }
+
+        // Moves the player's units to the chosen square, erases the duplicates,
+        // then set's the player's location to the new spot.
         map[playerMoveChoice[0]][playerMoveChoice[1]][0] = map[playerLocation[0]][playerLocation[1]][0];
         map[playerMoveChoice[0]][playerMoveChoice[1]][1] = map[playerLocation[0]][playerLocation[1]][1];
         map[playerLocation[0]][playerLocation[1]][0] = 0;
         map[playerLocation[0]][playerLocation[1]][1] = 0;
+        playerLocation[0] = playerMoveChoice[0];
+        playerLocation[1] = playerMoveChoice[1];
         return map;
     }
 
@@ -131,7 +141,9 @@ public class Main {
         // Increases active unit count based on passive unit count
         for (int row = 0; row < map.length; row++) {
             for (int column = 0; column < map[row].length; column++) {
-                map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
+                if (!(playerLocation[0] == row && playerLocation[1] == column)) {
+                    map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
+                }
                 if (map[row][column][0] > 99) {
                     map[row][column][0] = 99;
                 }
