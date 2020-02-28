@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-
+// TODO fix error that causes a square to actually just straight-up disappear
 public class Main {
 
     public static int activeUnitAcquisitionSpeed = 5;
@@ -126,6 +126,7 @@ public class Main {
     // Moves the player to a square
     // TODO Fix bug where the player moves into the wrong square.
     // TODO Find a way to replicate said bug that I found at some point in time.
+    // TODO Fix bug that moves player back to their own square after first failed entry, then successful entry.
     public static int[][][] playerMovesSquare (int[][][] map){
         Scanner input = new Scanner(System.in);
         int[] playerMoveChoice = new int[2];
