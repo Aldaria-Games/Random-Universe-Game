@@ -221,9 +221,12 @@ public class Main {
         int attackerPassiveUnits = map[attackerLocation[0]][attackerLocation[1]][1];
         int defenderPassiveUnits = map[defenderLocation[0]][defenderLocation[1]][1];
         Random numGen = new Random();
-        // TODO fix bug that makes result negative.
         int result = attackerActiveUnits - numGen.nextInt(attackerActiveUnits + defenderActiveUnits) + 1;
-        System.out.println("result = attacker gained " + result + " units at most");
+        if (result > 0) {
+            System.out.println("result = attacker gained " + result + " units at most");
+        } else {
+            System.out.println("result = attacker lost " + Math.abs(result) + " units at most");
+        }
 //        attackerActiveUnits += result;
 //        defenderActiveUnits -= result;
 
