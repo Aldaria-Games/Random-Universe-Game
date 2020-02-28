@@ -154,7 +154,6 @@ public class Main {
     }
 
     // Progresses all of the passive actions that happens after the player turn.
-    // TODO add AI moves
     public static int[][][] progressTurn (int[][][] map) {
         Random numGen = new Random();
         for (int row = 0; row < map.length; row++) {
@@ -187,6 +186,7 @@ public class Main {
                                 map[moveRowOffset+row][moveColumnOffset+column][1] = map[row][column][1];
                                 map[row][column][0] = 0;
                                 map[row][column][1] = 0;
+//                                System.out.println("Moved untis at: " + row + ", " + column);
                             }
                         }
                     } else {
