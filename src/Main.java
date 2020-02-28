@@ -92,7 +92,8 @@ public class Main {
                 map = playerTurn(map);
             }
         } else {
-            map[playerLocation[0]][playerLocation[1]][0] += map[playerLocation[0]][playerLocation[1]][1]/activeUnitAcquisitionSpeed;
+            map[playerLocation[0]][playerLocation[1]][0] +=
+                    map[playerLocation[0]][playerLocation[1]][1]/activeUnitAcquisitionSpeed;
         }
         map = progressTurn(map);
         return map;
@@ -224,18 +225,24 @@ public class Main {
         int result = attackerActiveUnits - numGen.nextInt(attackerActiveUnits + defenderActiveUnits) + 1;
         if (result > 0) {
             System.out.println("result = attacker gained " + result + " units at most");
+            System.out.println("at location: " + Arrays.toString(attackerLocation));
         } else {
             System.out.println("result = attacker lost " + Math.abs(result) + " units at most");
+            System.out.println("at location: " + Arrays.toString(attackerLocation));
         }
 //        attackerActiveUnits += result;
 //        defenderActiveUnits -= result;
 
         if (result > 0) {
-            defenderActiveUnits -= result;
             attackerPassiveUnits += result;
+            defenderActiveUnits -= result;
+//            defenderActiveUnits -= result;
+//            attackerPassiveUnits += result;
         } else if (result < 0) {
-            attackerActiveUnits += result;
-            defenderPassiveUnits -= result;
+            attackerActiveUnits -= Math.abs(result);
+            defenderPassiveUnits += Math.abs(result);
+//            attackerActiveUnits += result;
+//            defenderPassiveUnits -= result;
         }
 
         // Accounts for cases where either army takes more active units than what is actually available.
