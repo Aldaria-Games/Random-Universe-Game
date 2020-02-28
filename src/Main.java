@@ -8,7 +8,6 @@ public class Main {
     public static int[] playerLocation = new int[2];
     public static boolean playerAlive = true;
     public static void main(String[] args) {
-        // TODO have multiple turns
 //        System.out.println("Hello World!");
 
         // The map is 10 x 10, with 2 spaces.
@@ -31,6 +30,7 @@ public class Main {
 //            System.out.println(Arrays.deepToString(mapNumbers[row]));
 //        }
 
+        //Prints the entire map
         printMap(mapNumbers);
 
         // Creates the player's starting location
@@ -98,7 +98,8 @@ public class Main {
         return map;
     }
 
-    // lets the player choose which square to attack.
+    // lets the player choose which square to attack, then attacks that square with the method attackSquare and
+    // user parameters.
     public static int[][][] playerAttacksSquare (int[][][] map) {
         Scanner input = new Scanner(System.in);
         int[] attackSquare = new int[2];
@@ -122,6 +123,8 @@ public class Main {
     }
 
     // Moves the player to a square
+    // TODO Fix bug where the player moves into the wrong square.
+    // TODO Find a way to replicate said bug that I found at some point in time.
     public static int[][][] playerMovesSquare (int[][][] map){
         Scanner input = new Scanner(System.in);
         int[] playerMoveChoice = new int[2];
@@ -146,6 +149,7 @@ public class Main {
         map[playerLocation[0]][playerLocation[1]][1] = 0;
         playerLocation[0] = playerMoveChoice[0];
         playerLocation[1] = playerMoveChoice[1];
+        System.out.println("New playerLocation: " + playerLocation[0] + ", " + playerLocation[1]);
         return map;
     }
 
@@ -155,19 +159,35 @@ public class Main {
         Random numGen = new Random();
         for (int row = 0; row < map.length; row++) {
             for (int column = 0; column < map[row].length; column++) {
-                if (!(playerLocation[0] == row && playerLocation[1] == column)) {
+                int[] currLocation = {row,column};
+                if (!(playerLocation[0] == row && playerLocation[1] == column) && map[row][column][1] != 0) {
                     int choice = numGen.nextInt(5);
                     if (choice == 4) {
                         // Attempts to attack a square
                         int attackRowOffset = numGen.nextInt(3) - 1;
                         int attackColumnOffset = numGen.nextInt(3) - 1;
-                        if ((attackRowOffset != 0 || attackColumnOffset != 0) && (attackRowOffset+row < 10) && (attackColumnOffset+column < 10) && (attackRowOffset+row >= 0) && (attackColumnOffset+column >= 0)) {
-                            int[] attackerArray = {row,column};
+                        if ((attackRowOffset != 0 || attackColumnOffset != 0) &&
+                                (attackRowOffset+row < 10) && (attackColumnOffset+column < 10) &&
+                                (attackRowOffset+row >= 0) && (attackColumnOffset+column >= 0)) {
+//                            int[] attackerArray = {row,column};
                             int[] defenderArray = {row + attackRowOffset,column + attackColumnOffset};
-                            map = attackSquare(map,attackerArray,defenderArray);
+                            map = attackSquare(map,currLocation,defenderArray);
                         } else {
                             // If the attack fails, it does the normal active unit increase.
                             map[row][column][0] += map[row][column][1]/activeUnitAcquisitionSpeed;
+                        }
+                    } else if (choice == 3) {
+                        if (checkForEmpty(map,currLocation)) {
+                            int moveRowOffset = numGen.nextInt(3) - 1;
+                            int moveColumnOffset = numGen.nextInt(3) - 1;
+                            if ((moveRowOffset != 0 || moveColumnOffset != 0) &&
+                                    (moveRowOffset+row < 10) && (moveColumnOffset+column < 10) &&
+                                    (moveRowOffset+row >= 0) && (moveColumnOffset+column >= 0)) {
+                                map[moveRowOffset+row][moveColumnOffset+column][0] = map[row][column][0];
+                                map[moveRowOffset+row][moveColumnOffset+column][1] = map[row][column][1];
+                                map[row][column][0] = 0;
+                                map[row][column][1] = 0;
+                            }
                         }
                     } else {
                         // Increases active unit count based on passive unit count
@@ -176,6 +196,8 @@ public class Main {
                 }
             }
         }
+
+
         for (int row = 0; row < map.length; row++) {
             for (int column = 0; column < map[row].length; column++) {
                 // Checks if either the active or passive units are over the max cap and correct if necessary.
@@ -199,6 +221,7 @@ public class Main {
         int attackerPassiveUnits = map[attackerLocation[0]][attackerLocation[1]][1];
         int defenderPassiveUnits = map[defenderLocation[0]][defenderLocation[1]][1];
         Random numGen = new Random();
+        // TODO fix bug that makes result negative.
         int result = attackerActiveUnits - numGen.nextInt(attackerActiveUnits + defenderActiveUnits) + 1;
         System.out.println("result = attacker gained " + result + " units at most");
 //        attackerActiveUnits += result;
@@ -237,8 +260,12 @@ public class Main {
     public static boolean checkForEmpty (int[][][] map, int[] location) {
         for (int row = -1; row < 2; row++) {
             for (int column = -1; column < 2; column++) {
-                if (map[location[0] + row][location[1] + column][0] == 0 && map[location[0] + row][location[1] + column][1] == 0){
-                    return true;
+                if (location[0] + row < 10 && location[0] + row > -1 &&
+                        location[1] + column < 10 && location[1] + column > -1) {
+                    if (map[location[0] + row][location[1] + column][0] == 0 &&
+                            map[location[0] + row][location[1] + column][1] == 0) {
+                        return true;
+                    }
                 }
             }
         }
